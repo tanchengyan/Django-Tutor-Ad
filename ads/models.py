@@ -1,5 +1,5 @@
 from django.db import models
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 from django.utils.text import slugify
 from django.urls import reverse
 # Default User model
@@ -28,7 +28,7 @@ class Ads(models.Model):
 
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200)
-    description = RichTextField()
+    description = CKEditor5Field('rich_text')
     price = models.DecimalField(max_digits=8, decimal_places=2)
     date_created = models.DateTimeField(auto_now_add=True)
     state = models.ForeignKey('State', on_delete=models.CASCADE, null=True)

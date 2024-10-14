@@ -1,5 +1,5 @@
 from django import forms
-from ckeditor.widgets import CKEditorWidget
+from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import *
 
 class PostAdsForm(forms.ModelForm):
@@ -10,7 +10,7 @@ class PostAdsForm(forms.ModelForm):
         'placeholder': 'Title'
     }))
 
-    description = forms.CharField(widget=CKEditorWidget(attrs={
+    description = forms.CharField(widget=CKEditor5Widget(attrs={
         'type': 'text',
         'class': 'form-control',  
         'name': 'description', 
