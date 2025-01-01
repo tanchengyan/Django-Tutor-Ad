@@ -9,7 +9,7 @@ from django.contrib.auth.forms import User
 from ads.models import Author
 
 from authentication.forms import UserRegistrationForm, UserUpdateForm, ProfileUpdateForm
-
+from ads.models import TutorAd 
 
 # Model Forms.
 
@@ -18,9 +18,9 @@ from authentication.forms import UserRegistrationForm, UserUpdateForm, ProfileUp
 # Profile Dashboard view
 @login_required(login_url='login')
 def profile_dashboard(request):
-    ads_posted = request.user.author.ads_set.all()
-    total_ads = request.user.author.ads_set.all().count()
-    featured_ads = request.user.author.ads_set.filter(is_featured=True).count()
+    ads_posted = request.user.author.tutorad_set.all()
+    total_ads = request.user.author.tutorad_set.all().count()
+    featured_ads = request.user.author.tutorad_set.filter(is_featured=True).count()
 
     context = {
         'ads_posted' : ads_posted,
@@ -33,19 +33,19 @@ def profile_dashboard(request):
 @login_required(login_url='login')
 def profile_settings(request):
     if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, instance=request.user)
+        
         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.author)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
+        if profile_form.is_valid():
+            
             profile_form.save()
             messages.success(request, f"Your profile has been updated successfully!")
             return redirect('profile-settings')
     else:
-        user_form = UserUpdateForm(instance=request.user)
+        
         profile_form = ProfileUpdateForm(instance=request.user.author)
 
     context = {
-        'user_form':user_form,
+        
         'profile_form':profile_form
     }
     return render(request, 'profiles/account-setting.html', context)
@@ -64,6 +64,11 @@ def profile_favorite_ads(request):
 @login_required(login_url='login')
 def profile_close(request):
     return render(request, 'profiles/account-close.html')
+
+@login_required(login_url='login')
+def ad_detail(request, pk):
+    ad = get_object_or_404(TutorAd, pk=pk)
+    return render(request, 'ads/ads-detail.html', {'ad': ad})
 
 
 

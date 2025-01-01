@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 {% block content %}
 
@@ -40,7 +41,7 @@
                 </li>
               </ul>
               <div class="listing-bottom">
-                <h3 class="price float-left">$ {{ ads.price }}</h3>
+                <h3 class="price float-left">¥ {{ ads.rate }}</h3>
                 <p class="btn-verified float-right"><i class="lni-check-box"></i> Verified
                   Ad</p>
               </div>

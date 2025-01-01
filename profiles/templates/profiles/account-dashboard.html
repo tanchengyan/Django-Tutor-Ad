@@ -86,16 +86,16 @@
                   
                     
                     <td data-title="Title">
-                      <h3>{{ ad.title }}</h3>
+                      <a href="{% url 'ads-detail' ad.id %}">{{ ad.title }}</a>
                       <!-- <span>Ad ID: ng3D5hAMHPajQrM</span> -->
                     </td>
                     <td data-title="Category"><span class="adcategories">{{ ad.category }}</span></td>
                     <td data-title="Price">
-                      <h3>{{ ad.price }}</h3>
+                      <h3>¥{{ ad.rate|floatformat:0 }}/h</h3>
                     </td>
 
                     <td data-title="Date">
-                      <h3>{{ ad.date_created }}</h3>
+                      <h3>{{ ad.date_created|date:"Y/m/d" }}</h3>
                     </td>
                     <td data-title="Ad Status">
                       {% if ad.is_active %}

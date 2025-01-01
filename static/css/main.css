@@ -3617,7 +3617,7 @@ Dashboard My Ads
 .owl-theme .owl-controls .owl-page {
   display: inline-block;
   zoom: 1;
-  *display: inline;
+  display: inline;
 }
 
 .owl-theme .owl-controls .owl-page span {
@@ -5162,4 +5162,8 @@ ul.errorlist li, .error-text{
 .focus-keyword{
   font-style: italic;
   color: #89613A;
+}
+
+.d-inline {
+  display: inline;
 }

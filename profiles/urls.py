@@ -8,4 +8,5 @@ urlpatterns = [
     path('my-ads/', views.profile_ads, name='profile-ads'),
     path('favorite-ads/', views.profile_favorite_ads, name='profile-favorite-ads'),
     path('profile-close/', views.profile_close, name='profile-close'),
+    path('ad/<int:pk>/', views.ad_detail, name='ad-detail'),
 ]

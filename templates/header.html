@@ -1,13 +1,14 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Hunting Ads - Classified ads for hunting related stuffs</title>
+    <title>{% trans "Yike - Find Affordable Tutors" %}</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
@@ -51,29 +52,37 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}">
-                                Home
+                                {% trans "Home" %}
                             </a>
 
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'ads-listing' %}">
-                                Ads Listing
+                                {% trans "Tutors Listing" %}
                             </a>
                         </li>
 
 
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'faq' %}">
-                                FAQ
+                                {% trans "FAQ" %}
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'contact' %}">
-                                Contact
+                                {% trans "Contact" %}
                             </a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'switch-language' %}?language=en">English</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'switch-language' %}?language=zh-hans">简体中文</a>
+                        </li>
+
                     </ul>
 
                     <ul class="sign-in">
@@ -84,13 +93,13 @@
                             <div class="dropdown-menu">
                                 
                                 <a class="dropdown-item" href="{% url 'dashboard' %}"><i class="lni-dashboard"></i>
-                                    Dashboard</a>
+                                    {% trans "Dashboard" %}</a>
 
                                 <a class="dropdown-item" href="{% url 'profile-settings' %}"><i class="lni-cog"></i>
-                                    Account Settings</a>
+                                    {% trans "Account Settings" %}</a>
 
                                 <a class="dropdown-item" href="{% url 'logout' %}"><i class="lni-enter"></i>
-                                    Logout</a>
+                                    {% trans "logout" %}</a>
                                 <!-- <a class="dropdown-item" href="{% url 'profile-ads' %}"><i class="lni-wallet"></i> My
                                     Ads</a>
                                 <a class="dropdown-item" href="{% url 'profile-favorite-ads' %}"><i
@@ -103,19 +112,19 @@
                             </div>
                             {% else %}
                             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false"><i class="lni-user"></i> My Account</a>
+                                aria-expanded="false"><i class="lni-user"></i> {% trans "My Account" %}</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{% url 'signup' %}"><i class="lni-user"></i>
-                                    Signup</a>
+                                    {% trans "Signup" %}</a>
                                 <a class="dropdown-item" href="{% url 'login' %}"><i class="lni-lock"></i>
-                                    Login</a>
+                                    {% trans "Login" %}</a>
                             </div>
                             {% endif %}
                         </li>
                     </ul>
 
                     <a class="tg-btn" href="{% url 'post-ads' %}">
-                        <i class="lni-pencil-alt"></i> Post An Ad
+                        <i class="lni-pencil-alt"></i> {% trans "Post a Listing" %}
                     </a>
 
                 </div>

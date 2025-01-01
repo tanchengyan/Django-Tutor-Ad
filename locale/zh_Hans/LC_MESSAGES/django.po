@@ -1,0 +1,121 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-25 14:13-0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: classifiedads/settings.py:137
+msgid "English"
+msgstr "英"
+
+#: classifiedads/settings.py:138
+msgid "Simplified Chinese"
+msgstr "中"
+
+#: pages/templates/pages/index.html:14
+msgid "Post and Find Tutor Info "
+msgstr "一对一导师直联"
+
+#: pages/templates/pages/index.html:14
+msgid "Or Search GRE, IELTS, TOEFL, and more!"
+msgstr "GRE，雅思，托福 and more!"
+
+#: pages/templates/pages/index.html:20
+msgid "Enter keyword (title, subject, lesson, or tutor)"
+msgstr "请输入关键词搜索（标题，科目，课程或导师）"
+
+#: pages/templates/pages/index.html:26
+msgid "Select Category"
+msgstr "选择类别"
+
+#: pages/templates/pages/index.html:33
+msgid "Search Now"
+msgstr "马上搜索"
+
+#: pages/templates/pages/index.html:50
+msgid "Featured Tutor Ads"
+msgstr "推介课程"
+
+#: pages/templates/pages/index.html:93
+msgid "Browse Tutor Ads by Category"
+msgstr "按课程类别浏览"
+
+#: pages/templates/pages/index.html:111
+#, fuzzy
+#| msgid "Latest Ads"
+msgid "Latest Tutor Ads"
+msgstr "近期导师"
+
+#: templates/base-alt.html:11 templates/header.html:11
+msgid "Yike - Find Affordable Tutors"
+msgstr "以课网：一对一导师平台"
+
+#: templates/footer.html:13
+msgid "Find Experienced Tutors at Your Most Affordable Cost"
+msgstr "资深导师直联"
+
+#: templates/footer.html:19
+msgid "Latest Ads"
+msgstr "近期导师"
+
+#: templates/footer.html:43
+msgid "Help & Support"
+msgstr "帮助"
+
+#: templates/header.html:55
+msgid "Home"
+msgstr "首页"
+
+#: templates/header.html:62
+msgid "Tutors Listing"
+msgstr "导师列表"
+
+#: templates/header.html:69
+msgid "FAQ"
+msgstr "常见问题"
+
+#: templates/header.html:75
+msgid "Contact"
+msgstr "联系我们"
+
+#: templates/header.html:96
+msgid "Dashboard"
+msgstr "用户页面"
+
+#: templates/header.html:99
+msgid "Account Settings"
+msgstr "账户设置"
+
+#: templates/header.html:102
+msgid "logout"
+msgstr "注销"
+
+#: templates/header.html:115
+msgid "My Account"
+msgstr "我的账户"
+
+#: templates/header.html:118
+msgid "Signup"
+msgstr "注册"
+
+#: templates/header.html:120
+msgid "Login"
+msgstr "登陆"
+
+#: templates/header.html:127
+msgid "Post a Listing"
+msgstr "发布课程"

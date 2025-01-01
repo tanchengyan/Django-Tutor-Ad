@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Author, Ads, State, City, Category, AdsImages, AdsTopBanner, AdsRightBanner, AdsBottomBanner
+from .models import *
 from django.utils.html import format_html
 
 # Register your models here.
@@ -9,36 +9,36 @@ class AdsImagesAdmin(admin.StackedInline):
 
 class AdsAdmin(admin.ModelAdmin):
     
-    # def thumbnail(self, object):
-    #     return format_html('<img src="{}" width="40">'.format(object.image.url))
+
+    # Display columns in the admin list view
+    list_display = ('id', 'title', 'subject', 'author', 'rate', 'date_created', 'is_featured', 'is_active')
     
-    # Display columns in horizontal list
-    list_display = ('id', 'title', 'price', 'author', 'category', 'date_created', 'is_featured', 'is_active')
-    
-    # Columns having links
+    # Fields with clickable links in the admin list view
     list_display_links = ('id', 'title')
 
-    # Editable columns
+    # Fields that are editable directly from the list view
     list_editable = ('is_featured', 'is_active')
 
-    # Searchable columns
-    # search_fields = ('title', 'price', 'state', 'category')
+    # Searchable fields
+    search_fields = ('title', 'subject', 'author__user__username', 'rate')
 
-    # Filterable columns
-    # list_filter = ('price', 'date_created', 'state', 'is_featured')
+    # Fields to filter results in the admin list view
+    list_filter = ('is_featured', 'is_active', 'date_created', 'rate')
 
+    # Add image uploads inline to TutorAd
     inlines = [AdsImagesAdmin]
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'category_name')
+    list_display_links = ('id', 'category_name')
+    search_fields = ('category_name',)
 
 class AdsImagesAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(Ads, AdsAdmin)
+admin.site.register(TutorAd, AdsAdmin)
 admin.site.register(AdsImages, AdsImagesAdmin)
 
 admin.site.register(Author)
-admin.site.register(State)
-admin.site.register(City)
+
 admin.site.register(Category)
-admin.site.register(AdsTopBanner)
-admin.site.register(AdsRightBanner)
-admin.site.register(AdsBottomBanner)

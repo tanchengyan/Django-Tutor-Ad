@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.core.mail import send_mail
 
+
+from django.db.models import Q 
 # importing messages
 from django.contrib import messages
 
@@ -21,90 +23,46 @@ from ads.models import Author
 @login_required(login_url='login')
 def post_ads(request):
     if request.method == 'POST':
-        # Get ad title
-        title = request.POST.get('title')
-
-        # Get ad description
-        description = request.POST.get('description')
-
-        # Get ad category
-        category = request.POST.get('category')
-        # Check if the category exists
-        category_check = Category.objects.filter(category_name=category).exists()
-        if category_check:
-            c = Category.objects.get(category_name=category) # Get the category if exists
-        else:
-            c = Category.objects.create(category_name=category) # Create the category
+        form = PostAdsForm(request.POST, request.FILES,user=request.user)
         
-        # Get ad price
-        price = request.POST.get('price')
-        
-        # Get ad condition
-        condition = request.POST.get('condition')
-        
-        # Get user's living state
-        state = request.POST.get('state')
-        # Check if the state exists
-        state_check = State.objects.filter(state_name=state).exists()
-        if state_check:
-            s = State.objects.get(state_name=state) # Get the state if exists
-        else:
-            s = State.objects.create(state_name=state) # Create the state
+        if form.is_valid():
 
-        # Get user's living city
-        city = request.POST.get('city')
-        # Check if the city exists
-        city_check = City.objects.filter(city_name=city).exists()
-        if city_check:
-            ci = City.objects.get(city_name=city) # Get the city if exists
-        else:
-            ci = City.objects.create(city_name=city) # Create the city
+            # Save form but do not commit immediately
+            tutor_ad = form.save(commit=False)
+            tutor_ad.author = request.user.author  # Set the author as the current user
+            tutor_ad.save()  # Now save the tutor ad
 
-        # Get ad brand
-        brand = request.POST.get('brand')
+            # Handle images if provided
+            images = request.FILES.getlist('images')
+            if images:
+                for image in images:
+                    AdsImages.objects.create(ads=tutor_ad, image=image)
+            else:
+                # If no images, use author's profile picture as default
+                AdsImages.objects.create(ads=tutor_ad, image=request.user.author.profile_pic)
 
-        # Get user's phone
-        phone = request.POST.get('phone')
-
-        # Get ad video
-        video = request.POST.get('video')
-
-        # Get image files length
-        length = request.POST.get('length')
-
-        # Create the ad
-        ads = Ads.objects.create(author=request.user.author, title=title, description=description, price=price, category=c, condition=condition, state=s, city=ci, brand=brand, phone=phone, video=video)
-
-        # Attach the images with the associated ad
-        for file_num in range(0, int(length)):
-            AdsImages.objects.create(
-                ads=ads,
-                image=request.FILES.get(f'images{file_num}')
+            # Email notification to admin
+            mail_subject = "New Tutor Ad Submitted"
+            message = f"Dear Admin, a new tutor ad has been submitted by {request.user.email}."
+            send_mail(
+                mail_subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [settings.EMAIL_HOST_USER],
+                fail_silently=False,
             )
-        
-        # Send email notificaton to Admin
-        mail_subject = "New Ads submitted"
-        sender_email = request.user.email
-        message = f"Dear Admin, you received a new ads request from {sender_email}"
-        print(message)
-        to_email = settings.EMAIL_HOST_USER
-        to_list = [to_email]
-        from_email = settings.EMAIL_HOST_USER
-        
-        send_mail(
-            mail_subject,
-            message,
-            from_email,
-            to_list,
-            fail_silently=False,
-        )
-        
-    return render(request, 'ads/post-ads.html')
+
+            return redirect('ads-listing')  # Redirect to the ad listing page after submission
+
+    else:
+        form = PostAdsForm()
+    
+    return render(request, 'ads/post-ads.html', {'form': form})
 
 # Ads listing view
 def ads_listing(request):
-    ads_listing = Ads.objects.all()
-    category_listing = Category.objects.annotate(total_ads=Count('ads')).order_by('category_name')
+    ads_listing = TutorAd.objects.all()
+    category_listing = Category.objects.annotate(total_ads=Count('tutor_ads')).order_by('category_name')
 
     context = {
         'ads_listing' : ads_listing,
@@ -115,7 +73,7 @@ def ads_listing(request):
 
 # Ads detail view
 def ads_detail(request, pk):
-    ads_detail = get_object_or_404(Ads, pk=pk)
+    ads_detail = get_object_or_404(TutorAd, pk=pk)
     ads_photos = AdsImages.objects.filter(ads=ads_detail)
 
     context = {
@@ -128,7 +86,7 @@ def ads_detail(request, pk):
 # Ads category archive view
 def ads_category_archive(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    ads_by_category = Ads.objects.filter(category=category)
+    ads_by_category = TutorAd.objects.filter(category=category)
 
     context = {
         'category' : category,
@@ -137,34 +95,12 @@ def ads_category_archive(request, slug):
 
     return render(request, 'ads/category-archive.html', context)
 
-# Ads state archive view
-def ads_state_archive(request, slug):
-    state = get_object_or_404(State, slug=slug)
-    ads_by_state = Ads.objects.filter(state=state)
 
-    context = {
-        'state' : state,
-        'ads_by_state' : ads_by_state
-    }
-
-    return render(request, 'ads/state-archive.html', context)
-
-# Ads city archive view
-def ads_city_archive(request, slug):
-    city = get_object_or_404(City, slug=slug)
-    ads_by_city = Ads.objects.filter(city=city)
-
-    context = {
-        'city' : city,
-        'ads_by_city' : ads_by_city
-    }
-
-    return render(request, 'ads/city-archive.html', context)
 
 # Ads author archive view
 def ads_author_archive(request, pk):
     author = get_object_or_404(Author, pk=pk)
-    ads_by_author = Ads.objects.filter(author=author)
+    ads_by_author = TutorAd.objects.filter(author=author)
 
     context = {
         'author' : author,
@@ -176,26 +112,38 @@ def ads_author_archive(request, pk):
 # Ads search/filter view
 def ads_search(request):
 
-    state = request.GET.get('state_name')
-    category = request.GET.get('category_name')
+    keyword = request.GET.get('keyword', '')  # Retrieve the keyword from the search input
+    category_name = request.GET.get('category_name')  # Retrieve the category if selected
 
-    if state:
-        ads_search_result = Ads.objects.filter(state__state_name=state)
-    elif category:
-        ads_search_result = Ads.objects.filter(category__category_name=category)
-    else:
-        ads_search_result = Ads.objects.filter(state__state_name=state).filter(category__category_name=category)
-    
+    # Start with all ads and filter based on keyword and category
+    ads_search_result = TutorAd.objects.all()
+
+    # If keyword is present, filter ads based on the keyword matching title, subject, about_lesson, or about_tutor
+    if keyword:
+        ads_search_result = ads_search_result.filter(
+            Q(title__icontains=keyword) |
+            Q(subject__icontains=keyword) |
+            Q(about_lesson__icontains=keyword) |
+            Q(about_tutor__icontains=keyword)
+        )
+
+    # If category is selected, filter ads based on category
+    if category_name:
+        ads_search_result = ads_search_result.filter(category__category_name=category_name)
+
     context = {
-        'ads_search_result':ads_search_result
+        'ads_search_result': ads_search_result,
+        'keyword': keyword,
+        'category_name': category_name,
     }
+
 
     return render(request, 'ads/ads-search.html', context)
 
 # Ads delete view
 @login_required(login_url='login')
 def ads_delete(request, pk):
-    ad = get_object_or_404(Ads, pk=pk)
+    ad = get_object_or_404(TutorAd, pk=pk)
     ad.delete()
     return redirect("dashboard")
 

@@ -43,11 +43,17 @@ class UserRegistrationForm(UserCreationForm):
         'placeholder': 'Email Address'
     }))
 
+    preferred_name = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'name': 'preferred_name',
+        'placeholder': 'Preferred Name (Optional)'
+    }))
+
     
     
     class Meta:
         model = User
-        fields = ['username','email','password1','password2']
+        fields = ['username', 'preferred_name','email','password1','password2']
 
 
     def clean_email(self):
@@ -57,7 +63,19 @@ class UserRegistrationForm(UserCreationForm):
         if duplicate_email:
             raise forms.ValidationError("This Email address is already in use.")
         return email
-
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+            preferred_name = self.cleaned_data.get('preferred_name')
+            author = Author.objects.create(user=user)
+            if preferred_name:
+                author.preferred_name = preferred_name
+            else:
+                author.preferred_name = user.username
+            author.save()
+        return user
 
 class EmailValidationOnForgotPassword(PasswordResetForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={
@@ -119,6 +137,31 @@ class UserUpdateForm(ModelForm):
 
 # Updating the profile form
 class ProfileUpdateForm(ModelForm):
+    preferred_name = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'name': 'preferred_name',
+        'placeholder': 'Preferred Name'
+    }))
+
+    phone_number = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'name': 'phone_number',
+        'placeholder': 'Phone Number'
+    }))
+    linkedin_url = forms.URLField(required=False, widget=forms.URLInput(attrs={
+        'class': 'form-control',
+        'name': 'linkedin_url',
+        'placeholder': 'LinkedIn URL'
+    }))
+    wechat = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'name': 'wechat',
+        'placeholder': 'WeChat ID'
+    }))
+
+    
+
     class Meta:
         model = Author
-        fields = ['profile_pic']
+        fields = ['preferred_name', 'phone_number', 'linkedin_url', 'wechat']
+        

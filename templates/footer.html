@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!-- Footer Section Start -->
 <footer>
     <!-- Footer Area Start -->
@@ -9,14 +10,13 @@
             <div class="widget">
               <h3 class="footer-logo"><img src="{% static 'images/site-logo.png' %}" alt=""></h3>
               <div class="textwidget">
-                <p>Buy And Sell Everything From Hunting Vehicles, Firearms, Merchandise
-                  Or Search Hunting Land, Guide Jobs And More</p>
+                <p>{% trans "Find Experienced Tutors at Your Most Affordable Cost" %}</p>
               </div>
             </div>
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
             <div class="widget">
-              <h3 class="block-title">Latest Ads</h3>
+              <h3 class="block-title">{% trans "Latest Ads" %}</h3>
               <ul class="media-content-list">
                 
                 <li>
@@ -40,7 +40,7 @@
           </div>
           <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 col-mb-12">
             <div class="widget">
-              <h3 class="block-title">Help & Support</h3>
+              <h3 class="block-title">{% trans "Help & Support" %}</h3>
               <ul class="menu">
                 <li><a href="{% url 'terms-of-service' %}">Privacy Policy</a></li>
                 <li><a href="{% url 'faq' %}">FAQ</a></li>
@@ -78,10 +78,10 @@
         <div class="row">
           <div class="col-md-12">
             <div class="site-info float-left">
-              <p>Copyright &copy; {% now "Y" %} HuntingAds.com | All rights reserved </p>
+              <p>Copyright &copy; {% now "Y" %} Yike.com | All rights reserved </p>
             </div>              
             <div class="float-right"> 
-              <p>Software developed by <a href="https://github.com/mahmud-sajib"  target="blank">Mahmudul Sajib</a></p> 
+              <p>Software developed by <a href="https://www.linkedin.com/in/tanchengyan-cs/"  target="blank">Chengyan Tan</a></p> 
               <!-- <ul class="bottom-card">
 
                 <li>
