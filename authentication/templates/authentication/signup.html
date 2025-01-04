@@ -65,11 +65,11 @@
                   </div>
                 </div>  
                 <div class="signup-notice mb-3"> 
-                    <p class="text-center">By registering, you accept our <a href="{% url 'terms-of-service' %}">Terms & Conditions</a> </p>
+                    <p class="text-center">{% trans "By registering, you accept our"%} <a href="{% url 'terms-of-service' %}">{% trans "Terms & Conditions"%}</a> </p>
                   </div>
                 </div>   
                 <div class="text-center">
-                  <button type="submit" class="btn btn-common log-btn">Register</button>
+                  <button type="submit" class="btn btn-common log-btn">{% trans "Register"%}</button>
                 </div>
               </form>
               

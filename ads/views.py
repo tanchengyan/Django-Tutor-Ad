@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.db.models import Count
 # Model Forms.
-from .forms import PostAdsForm
+from .forms import PostAdsForm, AdsImagesForm
 from django.contrib.auth.forms import User
 from django.contrib.auth.models import User
 
@@ -37,9 +37,7 @@ def post_ads(request):
             if images:
                 for image in images:
                     AdsImages.objects.create(ads=tutor_ad, image=image)
-            else:
-                # If no images, use author's profile picture as default
-                AdsImages.objects.create(ads=tutor_ad, image=request.user.author.profile_pic)
+            
 
             # Email notification to admin
             mail_subject = "New Tutor Ad Submitted"
@@ -56,8 +54,8 @@ def post_ads(request):
 
     else:
         form = PostAdsForm()
-    
-    return render(request, 'ads/post-ads.html', {'form': form})
+        images_form = AdsImagesForm()
+    return render(request, 'ads/post-ads.html', {'form': form,'images_form': images_form})
 
 # Ads listing view
 def ads_listing(request):
@@ -147,7 +145,28 @@ def ads_delete(request, pk):
     ad.delete()
     return redirect("dashboard")
 
-
+@login_required
+def edit_ad(request, pk):
+    ad = get_object_or_404(TutorAd, pk=pk, author=request.user.author)
+    if request.method == 'POST':
+        form = PostAdsForm(request.POST, instance=ad,user =request.user)
+        images_form = AdsImagesForm(request.POST, request.FILES)
+        if form.is_valid() and images_form.is_valid():
+            ad = form.save(commit=False)
+            ad.author = request.user.author
+            ad.save()
+            
+            # Handle images if provided
+            images = images_form.cleaned_data.get('images')
+            for image in images:
+                AdsImages.objects.create(ads=ad, image=image)
+            
+            return redirect('ads-detail', pk=ad.pk)
+    else:
+        form = PostAdsForm(instance=ad)
+        images_form = AdsImagesForm()
+    
+    return render(request, 'ads/ads-update.html', {'form': form, 'images_form': images_form, 'ad': ad})
 
 
 

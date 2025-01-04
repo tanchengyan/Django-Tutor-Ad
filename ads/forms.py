@@ -101,3 +101,16 @@ class SearchForm(forms.Form):
         }),
         required=False
     )
+
+class AdsImagesForm(forms.ModelForm):
+    images = forms.FileField(widget=forms.ClearableFileInput(attrs={'allow_multiple_selected': True}), required=False)
+
+    class Meta:
+        model = AdsImages
+        fields = ['images']
+    
+    def clean_images(self):
+        images = self.files.getlist('images')
+        if len(images) > 5:
+            raise forms.ValidationError("You can upload a maximum of 5 images.")
+        return images

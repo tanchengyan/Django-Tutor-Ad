@@ -75,8 +75,8 @@
 
             <!-- FilePond input for multiple image uploads -->
             <div class="form-group">
-              <label for="images">Upload Images (max 5 images):</label>
-              <input type="file" id="images" name="images" multiple>
+              <label for="images">{% trans "Upload Images" %}:</label>
+              {{ images_form.images }}
             </div>
 
             <!-- Submit Button -->

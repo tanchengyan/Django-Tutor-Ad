@@ -11,7 +11,7 @@
           alt=""></a>
         <h3 class="text-center">Thanks for being with us.</h3>
         <h5 class="text-center">
-        Your account has been activated successfully. Please <a href="{% url 'login' %}">login</a> to continue.
+        {% trans "Your account has been activated successfully. Please"%} <a href="{% url 'login' %}">{% trans "login"%}</a> {% trans "to continue."%}
         </h5>
       </div>
     </div>

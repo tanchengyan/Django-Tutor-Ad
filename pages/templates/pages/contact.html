@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 {% block content %}
 
@@ -8,7 +9,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="breadcrumb-wrapper">
-          <h2 class="product-title">Contact Us</h2>
+          <h2 class="product-title">{% trans "Contact Us"%}</h2>
           
         </div>
       </div>
@@ -32,18 +33,15 @@
             <div class="icon">
               <i class="lni-map-marker icon-radius"></i>
             </div>
-            <div class="info">
-              <h3>Address</h3>
-              <span class="detail">120 Clyde Run Fredericksburg, Texas 78624.</span>
-            </div>
+
           </div>
           <div class="contact-datails">
             <div class="icon">
               <i class="lni-pointer icon-radius"></i>
             </div>
             <div class="info">
-              <h3>Have any Questions?</h3>
-              <span class="detail">info@huntingads.com</span>
+              <h3>{% trans "Have any Questions?"%}</h3>
+              <span class="detail">tan.chengyan@protonmail.com</span>
             </div>
           </div>
           
@@ -51,10 +49,7 @@
             <div class="icon">
               <i class="lni-phone icon-radius"></i>
             </div>
-            <div class="info">
-              <h3>Telephone</h3>
-              <span class="detail"> 512-581-8241</span>
-            </div>
+
           </div>
         </div>
       </div>

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<h2>{% trans "Edit Your Ad" %}</h2>
+<div class="page-content">
+    <form action="{% url 'edit-ad' ad.pk %}" method="POST" enctype="multipart/form-data" id="ad-post-form">
+      {% csrf_token %}
+    <div class="form-group">
+        <label for="id_title">{% trans "Title" %}</label>
+        {{ form.title }}
+    </div>
+    <div class="form-group">
+        <label for="id_about_tutor">{% trans "About Tutor" %}</label>
+        {{ form.about_tutor }}
+    </div>
+    <div class="form-group">
+        <label for="id_about_lesson">{% trans "About Lesson" %}</label>
+        {{ form.about_lesson }}
+    </div>
+    <div class="form-group">
+        <label for="id_category">{% trans "Category" %}</label>
+        {{ form.category }}
+    </div>
+    <div class="form-group">
+        <label for="id_subject">{% trans "Subject" %}</label>
+        {{ form.subject }}
+    </div>
+    <div class="form-group">
+        <label for="id_rate">{% trans "Rate" %}</label>
+        {{ form.rate }}
+    </div>
+    <div class="form-group form-check">
+      {{ form.contact_tel }}
+      <label class="form-check-label" for="id_contact_tel">{% trans "Contact by Phone" %}</label>
+      {% if form.errors.contact_tel %}
+          <div class="text-danger">{{ form.errors.contact_tel }}</div>
+      {% endif %}
+    </div>
+    <div class="form-group form-check">
+      {{ form.contact_email }}
+      <label class="form-check-label" for="id_contact_email">{% trans "Contact by Email" %}</label>
+      {% if form.errors.contact_email %}
+          <div class="text-danger">{{ form.errors.contact_email }}</div>
+      {% endif %}
+    </div>
+    <div class="form-group form-check">
+      {{ form.contact_wechat }}
+      <label class="form-check-label" for="id_contact_wechat">{% trans "Contact by WeChat" %}</label>
+      {% if form.errors.contact_wechat %}
+          <div class="text-danger">{{ form.errors.contact_wechat }}</div>
+      {% endif %}
+    </div>
+
+      <!-- FilePond input for multiple image uploads -->
+      <div class="form-group">
+        <label for="images">{% trans "Upload Images" %}:</label>
+        {{ images_form.images }}
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-common log-btn">Update Ad</button>
+    </form>
+  </div>
+{% endblock %}

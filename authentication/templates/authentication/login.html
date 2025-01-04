@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-md-12">
         <div class="breadcrumb-wrapper">
-          <h2 class="product-title">Login</h2>
+          <h2 class="product-title">{% trans "Login"%}</h2>
           <!-- <ol class="breadcrumb">
             <li><a href="index.html">Home /</a></li>
             <li class="current">Login</li>
@@ -27,7 +27,7 @@
       <div class="col-lg-5 col-md-12 col-xs-12">
         <div class="login-form login-area">
           <h3>
-            Login Now
+            {% trans "Login Now"%}
           </h3>
 
           <!-- Error message start -->
@@ -56,14 +56,14 @@
             </div>
             <div class="form-group mb-3">
               <div class="signup-area">
-                Don't have an account? <a class="signup-link" href="{% url 'signup' %}">Sign Up</a>
+                {% trans "Don't have an account"%}? <a class="signup-link" href="{% url 'signup' %}">{% trans "Sign Up%"}</a>
               </div>
               <div class="forgetpassword-area">
-                <a class="forgetpassword-link" href="{% url 'reset_password' %}">Forgot Password?</a>
+                <a class="forgetpassword-link" href="{% url 'reset_password' %}">{% trans "Forgot Password"%}?</a>
               </div>
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-common log-btn">Login</button>
+              <button type="submit" class="btn btn-common log-btn">{% trans "Login"%}</button>
             </div>
           </form>
         </div>

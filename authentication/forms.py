@@ -43,17 +43,13 @@ class UserRegistrationForm(UserCreationForm):
         'placeholder': 'Email Address'
     }))
 
-    preferred_name = forms.CharField(required=False, widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'name': 'preferred_name',
-        'placeholder': 'Preferred Name (Optional)'
-    }))
+
 
     
     
     class Meta:
         model = User
-        fields = ['username', 'preferred_name','email','password1','password2']
+        fields = ['username', 'email','password1','password2']
 
 
     def clean_email(self):
@@ -140,28 +136,33 @@ class ProfileUpdateForm(ModelForm):
     preferred_name = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class': 'form-control',
         'name': 'preferred_name',
-        'placeholder': 'Preferred Name'
+        'placeholder': 'e.g., 口语Amy, 托福Bill学长, 纽约李老师, 交大计算机Chris'
     }))
 
-    phone_number = forms.CharField(required=False, widget=forms.TextInput(attrs={
+    tel_number = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class': 'form-control',
         'name': 'phone_number',
         'placeholder': 'Phone Number'
+        
     }))
     linkedin_url = forms.URLField(required=False, widget=forms.URLInput(attrs={
         'class': 'form-control',
         'name': 'linkedin_url',
-        'placeholder': 'LinkedIn URL'
+        'placeholder': '领英个人主页链接会增加你的可信度'
     }))
     wechat = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'class': 'form-control',
         'name': 'wechat',
-        'placeholder': 'WeChat ID'
+        'placeholder': '可搜索添加好友的微信号'
     }))
 
+    profile_pic = forms.ImageField(required=False, widget=forms.FileInput(attrs={
+        'class': 'form-control', 
+        'name': 'profile_pic'
+        }))
     
 
     class Meta:
         model = Author
-        fields = ['preferred_name', 'phone_number', 'linkedin_url', 'wechat']
+        fields = ['preferred_name', 'tel_number', 'linkedin_url', 'wechat', 'profile_pic']
         

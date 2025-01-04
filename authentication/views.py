@@ -14,6 +14,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
 from .tokens import account_activation_token
+from ads.models import TutorAd
 
 # Create your views here.
 
@@ -83,6 +84,8 @@ def login_view(request):
         # If user exists log them in
         if user is not None:
             login(request, user)
+            if not TutorAd.objects.filter(author=user.author).exists():
+                redirect_url = request.GET.get('next','profile-settings')
             redirect_url = request.GET.get('next','home')
             return redirect(redirect_url)
         else:
