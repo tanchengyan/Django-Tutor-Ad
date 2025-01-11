@@ -27,29 +27,30 @@
     <div class="row">
       <div class="col-lg-4 col-md-12 col-xs-12 page-sidebar">
         <aside>
-          <!-- Search Widget -->
-          <!-- <div class="widget_search">
-            <form role="search" id="search-form">
-              <input type="search" class="form-control" autocomplete="off" name="s" placeholder="Search..."
-                id="search-input" value="">
-              <button type="submit" id="search-submit" class="search-btn"><i class="lni-search"></i></button>
+          <div class="widget">
+            <h4 class="widget-title">{% trans "Filter Ads" %}</h4>
+            <form method="GET" action="{% url 'ads-listing' %}">
+              <div class="form-group">
+                <label for="keywords">{% trans "Keywords" %}</label>
+                <input type="text" class="form-control" id="keywords" name="keywords" placeholder="{% trans 'Enter keywords' %}" value="{{ request.GET.keywords }}">
+              </div>
+              <div class="form-group">
+                <label for="category">{% trans "Category" %}</label>
+                <select class="form-control" id="category" name="category">
+                  <option value="">{% trans "All Categories" %}</option>
+                  {% for category in category_listing %}
+                  <option value="{{ category.slug }}" {% if request.GET.category == category.slug %}selected{% endif %}>{{ category }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="price">{% trans "Price" %}</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="{% trans 'Enter max price' %}" value="{{ request.GET.price }}">
+              </div>
+              <button type="submit" class="btn btn-common">{% trans "Submit" %}</button>
             </form>
-          </div> -->
-          <!-- Categories Widget -->
-          <div class="widget categories">
-            <h4 class="widget-title">All Categories</h4>
-            <ul class="categories-list">
-              <li>
-                {% for category in category_listing %}
-                <a href="{% url 'category-archive' category.slug %}">
-                  <i class="lni-folder"></i>
-                  {{ category }} <span class="category-counter">({{ category.total_ads }})</span>
-                </a>
-                {% endfor %}
-              </li>
-            </ul>
           </div>
-          
+
         </aside>
       </div>
       <div class="col-lg-8 col-md-12 col-xs-12 page-content">
@@ -89,7 +90,7 @@
           <div class="tab-content">
             <div id="list-view" class="tab-pane fade active show">
               <div class="row">
-                {% for ad_listing in ads_listing %}
+                {% for ad_listing in ads %}
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   <div class="featured-box">
                     <figure>
@@ -108,25 +109,29 @@
                         <a href="{% url 'category-archive' ad_listing.category.slug %}"><i class="lni-folder"></i> {{ ad_listing.category }}</a>
                       </div>
                       <h4><a href="{% url 'ads-detail' ad_listing.id %}">{{ ad_listing.title }}</a></h4>
-                      <span>Created {{ ad_listing.date_created }}</span>
+                      <span>{% trans "Created"%} {{ ad_listing.date_created|date }}</span>
                       <ul class="address">
+
+                        
                         <li>
-                          <i class="lni-map-marker"></i> {{ ad_listing.city }}, {{ ad_listing.state }}
+                          <i class="lni-user"></i> 
+                          {%if ad_listing.author.preferred_name%}
+                          {{ ad_listing.author.preferred_name }}
+                          {% else %}
+                          {{ ad_listing.author.user }}
+                          {% endif %}
+                          
                         </li>
                         <li>
-                          <i class="lni-alarm-clock"></i> {{ ad_listing.date_created|date }}
-                        </li>
+                          <i class="lni-alarm-clock"></i> 
                         <li>
-                          <i class="lni-user"></i> {{ ad_listing.author.user }}
+                          <i class="lni-arrow-right"></i> {{ ad_listing.subject}}
                         </li>
-                        <li>
-                          <i class="lni-package"></i> {{ ad_listing.condition }}
-                        </li>
+
                       </ul>
                       <div class="listing-bottom">
                         <h3 class="price float-left">¥ {{ ad_listing.rate }}</h3>
-                        <p class="btn-verified float-right"><i class="lni-check-box"></i>
-                          Verified Ad</p>
+
                       </div>
                     </div>
                   </div>

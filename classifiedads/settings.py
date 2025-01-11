@@ -91,23 +91,24 @@ WSGI_APPLICATION = 'classifiedads.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 """PostgreSQL DB"""
-# DATABASES = {
-#     'default': {
-#         'NAME': 'ClassifiedAdsDB',
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'USER': 'postgres',
-#         'PASSWORD': 'admin123',
-#         'HOST': 'localhost',
-#     }
-# }
-
-"""SQLite DB"""
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'tutorlistdb',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'chengyan',
+        'PASSWORD': 'tan5224539',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
+"""SQLite DB"""
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 

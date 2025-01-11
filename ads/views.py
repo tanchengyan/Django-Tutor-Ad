@@ -17,7 +17,10 @@ from django.db.models import Q
 from django.contrib import messages
 
 from ads.models import Author
-# Create your views here.
+
+#PostgreSQL full-text search
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+
 
 # Post ads view
 @login_required(login_url='login')
@@ -57,16 +60,29 @@ def post_ads(request):
         images_form = AdsImagesForm()
     return render(request, 'ads/post-ads.html', {'form': form,'images_form': images_form})
 
-# Ads listing view
+# Ads listing view with search/filter
 def ads_listing(request):
-    ads_listing = TutorAd.objects.all()
-    category_listing = Category.objects.annotate(total_ads=Count('tutor_ads')).order_by('category_name')
+    ads = TutorAd.objects.all()
+    category_listing = Category.objects.all()
+
+    keywords = request.GET.get('keywords')
+    category = request.GET.get('category')
+    price = request.GET.get('price')
+
+    
+    if keywords:
+        search_vector = SearchVector('title', 'subject', 'about_lesson', 'about_tutor')
+        search_query = SearchQuery(keywords)
+        ads = ads.annotate(rank=SearchRank(search_vector, search_query)).filter(rank__gte=0.3).order_by('-rank')
+    if category:
+        ads = ads.filter(category__slug=category)
+    if price:
+        ads = ads.filter(rate__lte=price)
 
     context = {
-        'ads_listing' : ads_listing,
-        'category_listing' : category_listing
+        'ads': ads,
+        'category_listing': category_listing,
     }
-
     return render(request, 'ads/ads-listing.html', context)
 
 # Ads detail view

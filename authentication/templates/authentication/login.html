@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 {% block content %}
 
@@ -56,7 +57,7 @@
             </div>
             <div class="form-group mb-3">
               <div class="signup-area">
-                {% trans "Don't have an account"%}? <a class="signup-link" href="{% url 'signup' %}">{% trans "Sign Up%"}</a>
+                {% trans "Don't have an account"%}? <a class="signup-link" href="{% url 'signup' %}">{% trans "Sign Up"%}</a>
               </div>
               <div class="forgetpassword-area">
                 <a class="forgetpassword-link" href="{% url 'reset_password' %}">{% trans "Forgot Password"%}?</a>

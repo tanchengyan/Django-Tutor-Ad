@@ -14,22 +14,23 @@
           <p>{% trans "Post and Find Tutor Info "%}<br> {% trans "Or Search GRE, IELTS, TOEFL, and more!"%}</p>
           <div class="search-bar">
             <div class="search-inner">
-              <form method="GET" class="search-form" action="{% url 'ads-search' %}">
+              <form method="GET" class="search-form" action="{% url 'ads-listing' %}">
                 <div class="form-group inputwithicon">
                   <i class="lni-search"></i>
-                  <input type="text" name="keyword" class="form-control" placeholder="{% trans 'Enter keyword (title, subject, lesson, or tutor)' %}">
+                  <input type="text" name="keywords" class="form-control" placeholder="{% trans 'Enter keyword (title, subject, lesson, or tutor)' %}">
                 </div>
                 <div class="form-group inputwithicon">
                   <i class="lni-menu"></i>
                   <div class="select">
-                    <select name="category_name">
-                      <option selected="true" disabled="disabled">{% trans "Select Category"%}</option>
-                      {% for category_name in category_search %}
-                      <option value="{{ category_name }}">{{ category_name }}</option>
+                    <select class="form-control" id="category" name="category">
+                      <option value="">{% trans "All Categories" %}</option>
+                      {% for category in category_listing %}
+                      <option value="{{ category.slug }}" {% if request.GET.category == category.slug %}selected{% endif %}>{{ category }}</option>
                       {% endfor %}
                     </select>
                   </div>
                 </div>
+
                 <button class="btn btn-common" type="submit"><i class="lni-search"></i> {% trans "Search Now"%}</button>
               </form>
             </div>
