@@ -28,7 +28,8 @@ SECRET_KEY = '+$#4m3n(oz_n#ip-3bpl5g5ew7)v$gq66rwhgz(dune&0(2!)g'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '114.55.248.125','www.yike.uno','yike.uno']
+
+ALLOWED_HOSTS = ['huntingads.herokuapp.com']
 
 
 # Application definition
@@ -92,16 +93,15 @@ WSGI_APPLICATION = 'classifiedads.wsgi.application'
 """PostgreSQL DB"""
 DATABASES = {
     'default': {
-        'NAME': 'yike',
+        'NAME': 'tutorlistdb',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'USER': 'chengyan',
         'PASSWORD': 'tan5224539',
-        'HOST': 'db',
+        'HOST': 'localhost',
+
         'PORT': '5432',
-	'OPTIONS': {
-            'sslmode': 'disable',  # Disable SSL
-        },
-    }
+	   
+     }
 }
 
 """SQLite DB"""
@@ -198,6 +198,7 @@ CKEDITOR_5_CONFIGS = {
     },
 }
 
+django_heroku.settings(locals())
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' 
 # # MAILER_EMAIL_BACKEND = EMAIL_BACKEND
